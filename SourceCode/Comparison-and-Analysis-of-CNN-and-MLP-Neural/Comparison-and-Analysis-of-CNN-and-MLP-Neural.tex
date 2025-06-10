@@ -1,0 +1,164 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{indentfirst}
+\geometry{margin=1in}
+
+\title{Comparison and Analysis of CNN and MLP Neural Networks}
+\author{Vu Viet Thai – B23DCCE085}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Compare the training process based on the results in the folder 
+\textit{Draw-the-learning-curve}:}
+
+\begin{itemize}
+    \item Neuron MLP:
+    \\ Training loss and accuracy:
+
+    \begin{itemize}
+        \item MLP starts with an accuracy of \~42\%, gradually increasing to 
+        \~72\% after 10 epochs.
+        \item Validation accuracy also increased similarly, reaching about 
+        76\%.
+        \item Loss decreased from 1.65 to about 0.78.
+    \end{itemize}
+
+     Comment:
+
+    \begin{itemize}
+        \item Slow convergence speed.
+        \item The level of loss is still high at the end of the training 
+        process.
+        \item The training and validation accuracy have a gap, although not 
+        big, but sufficient to show that the model has not generalized well.
+    \end{itemize}
+    
+\end{itemize}
+
+\begin{itemize}
+    \item Neuron CNN:
+    
+    Training loss and accuracy:
+
+    \begin{itemize}
+        \item Starting from an accuracy of \~51\%, quickly reaching \~95\%.
+        \item The validation accuracy is even higher, reaching \~96\% at epoch 
+        10.
+        \item Loss decreases steadily from 1.35 to about 0.15, showing 
+        effective learning.
+    \end{itemize}
+
+     Comment:
+
+    \begin{itemize}
+        \item Fast convergence speed.
+        \item No signs of overfitting: training and validation accuracy are 
+        similar to each other.
+        \item The loss level decreases steadily and is low at the end of 
+        training.
+    \end{itemize}
+    
+\end{itemize}
+
+\section{Comparison Based on Confusion Matrix in the folder 
+\textit{Confusion-matrix}:}
+
+\begin{itemize}
+    \item Neuron MLP:
+
+     MLP has significantly lower performance. The majority of samples were 
+     incorrectly classified as the class "frog":
+
+    \begin{itemize}
+        \item \textit{Airplane} → \textit{Frog}: 764 times.
+        \item \textit{Automobile} → \textit{Frog}: 687 times.
+        \item \textit{Bird} → \textit{Frog}: 809 times.
+        \item \textit{Cat} → \textit{Frog}: 780 times.
+    \end{itemize}
+
+    This reflects that MLP cannot clearly distinguish image features – because 
+    MLP processes images as flat vectors, it does not leverage spatial 
+    information.
+    
+    Easy-to-distinguish classes like \textit{airplane}, \textit{automobile}, 
+    and \textit{ship} are still severely confused, which proves that the model 
+    cannot learn a strong representation from images.
+
+    \item Neuron CNN:
+
+    CNN demonstrates very high classification performance across most classes:
+
+    \begin{itemize}
+        \item \textit{Frog}: 670 correct samples / nearly absolute.
+        \item \textit{Ship}: 616 correct samples.
+        \item \textit{Truck}: 670 correct.
+    \end{itemize}
+
+    However, there are still some confusions:
+
+    \begin{itemize}
+        \item The classes \textit{cat}, \textit{dog}, \textit{bird}, and 
+        \textit{deer} often confuse each other due to similar visual features 
+        (color, shape).
+        \item Class \textit{bird} is misclassified as \textit{dog}: 142 times.
+        \item \textit{Deer} misclassified as \textit{dog}: 186 times.
+    \end{itemize}
+
+    Nevertheless, CNN's confusion remains focused and reasonable, reflecting 
+    very good feature recognition capability.
+\end{itemize}
+
+\section{The cause of the difference:}
+
+The significant difference in performance between CNN and MLP can be explained 
+by their architectural characteristics. CNN's use convolution operations to 
+extract local features, pooling layers to reduce size and create translation 
+invariance, along with the ability to learn hierarchical features from 
+low-level to high-level. This is particularly suitable for image data, where 
+spatial relationships and local patterns play a crucial role.
+
+MLP's, with a fully connected architecture, process each pixel as an 
+independent feature without leveraging the spatial structure of the image. 
+This leads to a loss of important information about relative position and 
+spatial relationships between pixels, significantly reducing classification 
+capability.
+
+\section{Conclusion:}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{@{}lll@{}}
+        \toprule
+        \textbf{Aspect} & \textbf{Neuron MLP} & \textbf{Neuron CNN} \\
+        \midrule
+        Architecture & Simple Dense & Modern Convolutional \\
+        Accuracy & 72\% (Training) – 76\% (Validation) & 95\% (Training) – 96\% 
+        (Validation) \\
+        Loss & 0.78 (end) & 0.15 (end) \\
+        Classification Power & Weak (many mistakes) & Strong (very few mistakes) \\
+        Learn image features & Not good & Good (extracted in spatial domain) \\
+        \bottomrule
+    \end{tabular}
+    \caption*{\small Comparison of MLP and CNN}
+\end{table}
+% Areagi Miane
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+{\large This experimental result clearly affirms the advantage of CNN in processing 
+image data. CNN not only achieves higher accuracy but also shows a more stable 
+and efficient learning process. The 20\% difference in accuracy (96\% vs 76\%) 
+is a significant gap, proving that selecting the appropriate network 
+architecture for the type of data is extremely important. For computer 
+vision tasks, CNN is clearly a better choice than MLP, while MLP may be more 
+suitable for other types of data such as tabular data or time series data that 
+do not have a clear spatial structure.}
+\end{document}
